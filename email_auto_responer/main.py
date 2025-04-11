@@ -17,16 +17,17 @@ def automate_email_response(customer_name, customer_email, customer_query, sende
 
     # Generate AI response using Gemini API
     try:
-        email_body = generate_email_content(customer_name, customer_query)
-        logging.info(f"Generated email content: {email_body}")
+        email = generate_email_content(customer_name, customer_query)
+        logging.info(f"Generated email content: {email}")
     except Exception as e:
         logging.error(f"Error generating email content: {str(e)}")
         return
 
     # Send email using SendGrid
-    subject = f"Response to Your Inquiry, {customer_name}"
+    subject = email[0].email_subject
+    email_body = email[0].email_body
     # message = send_email(customer_name="Zalihat Mohammed",customer_email='zalihatmohammed@gmail.com',email_subject='hello', email_body='email body', sender_email='zalihatmohammad25@gmail.com', company_name='alphaglobal')
-
+     
     message = send_email(customer_name, customer_email, subject, email_body, sender_email, company_name)
 
     if message.status_code == 202:
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     customer_email = "johndoe@example.com"
     customer_query = "Can I get an update on my order status?"
     sender_email='zalihatmohammad25@gmail.com'
-    company_name='alphaglobal'
+    company_name='RayyanAssociates'
 
 
     # Automate the email process

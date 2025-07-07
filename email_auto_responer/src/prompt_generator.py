@@ -42,7 +42,7 @@ def generate_email_content(customer_name, customer_query):
     emails: list[EmailResponse] = response.parsed
     # Check the status code and handle the response
     if emails[0].status_code == 200:
-        return emails[0].email_body.strip()
+        return emails
     else:
         raise Exception(f"Error generating email content: {emails[0].error_message}")
 
@@ -52,8 +52,11 @@ if __name__ == "__main__":
     customer_query = "Can I get an update on my order status?"
     
     try:
-        email_body = generate_email_content(customer_name, customer_query)
-        print("Generated Email Body:")
-        print(email_body)
+        email = generate_email_content(customer_name, customer_query)
+        print(f"Status code: {email[0].status_code}")
+        print(f"Response body: {email[0].response_body}")
+        print(f"Error message: {email[0].error_message}")
+        print(f"Email subject: {email[0].email_subject}")
+        print(f"Generated email body: {email[0].email_body}")
     except Exception as e:
         print(f"Error: {str(e)}")
